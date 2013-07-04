@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Interpreter", "Interpreter\Interpreter.vcxproj", "{593CD55B-BE25-4C50-93AB-A719E1167723}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tokenizer", "Tokenizer\Tokenizer.vcxproj", "{F9FB362A-FCBA-40D8-A07D-5697E9FA17D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{593CD55B-BE25-4C50-93AB-A719E1167723}.Debug|Win32.ActiveCfg = Debug|Win32
+		{593CD55B-BE25-4C50-93AB-A719E1167723}.Debug|Win32.Build.0 = Debug|Win32
+		{593CD55B-BE25-4C50-93AB-A719E1167723}.Release|Win32.ActiveCfg = Release|Win32
+		{593CD55B-BE25-4C50-93AB-A719E1167723}.Release|Win32.Build.0 = Release|Win32
+		{F9FB362A-FCBA-40D8-A07D-5697E9FA17D9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F9FB362A-FCBA-40D8-A07D-5697E9FA17D9}.Debug|Win32.Build.0 = Debug|Win32
+		{F9FB362A-FCBA-40D8-A07D-5697E9FA17D9}.Release|Win32.ActiveCfg = Release|Win32
+		{F9FB362A-FCBA-40D8-A07D-5697E9FA17D9}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
