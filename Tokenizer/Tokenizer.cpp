@@ -46,17 +46,19 @@ namespace Interpeter
 			{
 				if(inlineComment)
 				{
-				
+					if(	source[i] == '\n' )
+						inlineComment = false;
 				}
 				else if(comment)
 				{
-				
+					if(	source[i] == '*' && source[i+1] == '/'  )
+						comment = false;
 				}
 				else if(!writeWord)
 				{
 					if(	source[i] == ' ' )
 						continue;
-					if( source[i] >= 'a' || source[i] <= 'z' || source[i] >= 'A' || source[i] <= '>' || source[i] >= '0' || source[i] <= '9' )
+					if( (source[i] >= 'a' && source[i] <= 'z') || (source[i] >= 'A' && source[i] <= 'Z') || (source[i] >= '0' && source[i] <= '9') )
 					{
 						writeWord = true;
 						world += source[i];
@@ -89,12 +91,20 @@ namespace Interpeter
 					{
 						inlineComment = true;
 					}
+					else if( source[i] == '/' && source[i+1] == '*')
+					{
+						comment = true;
+					}
+					else if( source[i] == '/' || source[i] == '*' || source[i] == '+' || source[i] == '-')
+					{
+						tokenList.push_back(Token(TOKEN_OPERATOR, &source[i]));
+					}
 					else
 						return TE2;	//	Character not accepted
 				}
 				else
 				{
-					if( source[i] >= 'a' || source[i] <= 'z' || source[i] >= 'A' || source[i] <= '>' || source[i] >= '0' || source[i] <= '9' )
+					if( (source[i] >= 'a' && source[i] <= 'z') || (source[i] >= 'A' && source[i] <= 'Z') || (source[i] >= '0' && source[i] <= '9') )
 					{
 						world += source[i];
 					}
@@ -129,6 +139,18 @@ namespace Interpeter
 						else if( source[i] == ';' ||  source[i] == '\n')
 						{
 							tokenList.push_back(Token(TOKEN_TERMINATOR, ""));
+						}
+						else if( source[i] == '/' && source[i+1] == '/')
+						{
+							inlineComment = true;
+						}
+						else if( source[i] == '/' && source[i+1] == '*')
+						{
+							comment = true;
+						}
+						else if( source[i] == '/' || source[i] == '*' || source[i] == '+' || source[i] == '-')
+						{
+							tokenList.push_back(Token(TOKEN_OPERATOR, &source[i]));
 						}
 						else
 							return TE2;	//	Character not accepted
