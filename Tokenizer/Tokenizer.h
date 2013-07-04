@@ -28,7 +28,8 @@ namespace Interpeter
 			TOKEN_SCOPE_OPEN,	//	{
 			TOKEN_SCOPE_CLOSE,	//	}
 			TOKEN_ASSIGNMENT,	//	=
-			TOKEN_TERMINATOR	//	\n ;
+			TOKEN_TERMINATOR,	//	\n ;
+			TOKEN_OPERATOR,		// + - * / 
 		};
 
 		class Token

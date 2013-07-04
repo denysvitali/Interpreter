@@ -11,11 +11,11 @@ namespace Interpeter
 			ifstream sourceFile;
 			char * source;
 			ifstream::pos_type size;
-			sourceFile.open(path,ios::in);
+			sourceFile.open(path, ios::in|ios::binary|ios::ate);
 			if(sourceFile.is_open())
 			{
 				size = sourceFile.tellg();
-				source = new char [size];
+				source = new char [(int)size + 1];
 				sourceFile.seekg(0, ios::beg);
 				sourceFile.read(source, size);
 				sourceFile.close();
@@ -35,7 +35,8 @@ namespace Interpeter
 		{
 			bool inlineComment = false,
 				comment = false,
-				writeWord = false;
+				writeWord = false,
+				inString = false;
 			
 			string world = "";
 			
@@ -84,6 +85,10 @@ namespace Interpeter
 					{
 						tokenList.push_back(Token(TOKEN_TERMINATOR, ""));
 					}
+					else if( source[i] == '/' && source[i+1] == '/')
+					{
+						inlineComment = true;
+					}
 					else
 						return TE2;	//	Character not accepted
 				}
@@ -91,7 +96,6 @@ namespace Interpeter
 				{
 					if( source[i] >= 'a' || source[i] <= 'z' || source[i] >= 'A' || source[i] <= '>' || source[i] >= '0' || source[i] <= '9' )
 					{
-						writeWord = true;
 						world += source[i];
 					}
 					else
@@ -99,36 +103,36 @@ namespace Interpeter
 						tokenList.push_back(Token(TOKEN_WORLD,world));
 						world = "";
 						writeWord = false;
-					}
 
-					if(	source[i] == ' ' )
-						continue;
-					else if( source[i] == '(')
-					{
-						tokenList.push_back(Token(TOKEN_METHOD_OPEN, ""));
+						if(	source[i] == ' ' )
+							continue;
+						else if( source[i] == '(')
+						{
+							tokenList.push_back(Token(TOKEN_METHOD_OPEN, ""));
+						}
+						else if( source[i] == ')')
+						{
+							tokenList.push_back(Token(TOKEN_METHOD_CLOSE, ""));
+						}
+						else if( source[i] == '{')
+						{
+							tokenList.push_back(Token(TOKEN_SCOPE_OPEN, ""));
+						}
+						else if( source[i] == '}')
+						{
+							tokenList.push_back(Token(TOKEN_SCOPE_CLOSE, ""));
+						}
+						else if( source[i] == '=')
+						{
+							tokenList.push_back(Token(TOKEN_ASSIGNMENT, ""));
+						}
+						else if( source[i] == ';' ||  source[i] == '\n')
+						{
+							tokenList.push_back(Token(TOKEN_TERMINATOR, ""));
+						}
+						else
+							return TE2;	//	Character not accepted
 					}
-					else if( source[i] == ')')
-					{
-						tokenList.push_back(Token(TOKEN_METHOD_CLOSE, ""));
-					}
-					else if( source[i] == '{')
-					{
-						tokenList.push_back(Token(TOKEN_SCOPE_OPEN, ""));
-					}
-					else if( source[i] == '}')
-					{
-						tokenList.push_back(Token(TOKEN_SCOPE_CLOSE, ""));
-					}
-					else if( source[i] == '=')
-					{
-						tokenList.push_back(Token(TOKEN_ASSIGNMENT, ""));
-					}
-					else if( source[i] == ';' ||  source[i] == '\n')
-					{
-						tokenList.push_back(Token(TOKEN_TERMINATOR, ""));
-					}
-					else
-						return TE2;	//	Character not accepted
 				}
 			}
 			return TE0;
